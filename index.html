@@ -1,18 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dice Roller</title>
-    <link rel="stylesheet" href="index.css">
-    <script defer src="index.js"></script>
+  <meta charset="UTF-8">
+  <title>Dice Roller</title>
+  <link rel="stylesheet" href="index.css">
+  <script defer src="index.js"></script>
 </head>
 <body>
-    <div class="container">
-        <button type="button" onclick="RollDice()">Roll Dice</button>
-        <div class="dice-container">
-            <img id="diceImage" src="dice1.png" alt="Dice" />
-            <p id="diceNumber">You rolled: 1</p>
-        </div>
+  <div class="container">
+    <div class="card">
+      <h1>Dice Roller</h1>
+      <button type="button" id="rollButton">Roll Dice</button>
+      <div class="dice-container">
+        <img id="diceImage" src="dice1.png" alt="Dice">
+        <p id="diceNumber">You rolled: 1</p>
+      </div>
     </div>
+  </div>
 </body>
 </html>

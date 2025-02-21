@@ -1,1 +1,10 @@
-# node-js-dice-sprint3_updated
+# Rolling Dice of Six Sides
+
+Authors:
+Aliyah AlDiqqi
+Sumaiya Bakhach
+Aalyah Al-Ali
+
+Credit:
+Eric Pogue
+ChatGPT

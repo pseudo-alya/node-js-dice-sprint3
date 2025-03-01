@@ -5,8 +5,6 @@ async function rollDice() {
 
     rollButton.disabled = true;
     diceImage.classList.remove("dice-roll");
-
-    // Force reflow to restart animation
     void diceImage.offsetWidth;
 
     setTimeout(() => {
@@ -14,23 +12,18 @@ async function rollDice() {
     }, 10);
 
     const diceSound = new Audio("dice-sound.mp3");
-    diceSound.currentTime = 0; // Restart the sound
     diceSound.play();
 
-    try {
-        const response = await fetch('/roll-dice');
-        const data = await response.json();
-        const diceRoll = data.diceRoll;
+    // Fetch the random dice number from your Azure-hosted server
+    const response = await fetch('https://your-azure-app.azurewebsites.net/roll-dice');
+    const data = await response.json();
+    const diceRoll = data.diceRoll;
 
-        setTimeout(() => {
-            diceImage.src = `dice${diceRoll}.png`;
-            diceNumberText.textContent = `You rolled: ${diceRoll}`;
-            rollButton.disabled = false;
-        }, 1000);
-    } catch (error) {
-        console.error("Error rolling dice:", error);
+    setTimeout(() => {
+        diceImage.src = `dice${diceRoll}.png`;
+        diceNumberText.textContent = `You rolled: ${diceRoll}`;
         rollButton.disabled = false;
-    }
+    }, 1000);
 }
 
 document.getElementById("rollButton").addEventListener("click", rollDice);

@@ -5,6 +5,8 @@ async function rollDice() {
 
     rollButton.disabled = true;
     diceImage.classList.remove("dice-roll");
+
+    // Force reflow to restart animation
     void diceImage.offsetWidth;
 
     setTimeout(() => {
@@ -12,18 +14,23 @@ async function rollDice() {
     }, 10);
 
     const diceSound = new Audio("dice-sound.mp3");
+    diceSound.currentTime = 0; // Restart the sound
     diceSound.play();
 
-    // Fetch the random dice number from the server
-    const response = await fetch('/roll-dice');
-    const data = await response.json();
-    const diceRoll = data.diceRoll;
+    try {
+        const response = await fetch('/roll-dice');
+        const data = await response.json();
+        const diceRoll = data.diceRoll;
 
-    setTimeout(() => {
-        diceImage.src = `dice${diceRoll}.png`;
-        diceNumberText.textContent = `You rolled: ${diceRoll}`;
+        setTimeout(() => {
+            diceImage.src = `dice${diceRoll}.png`;
+            diceNumberText.textContent = `You rolled: ${diceRoll}`;
+            rollButton.disabled = false;
+        }, 1000);
+    } catch (error) {
+        console.error("Error rolling dice:", error);
         rollButton.disabled = false;
-    }, 1000);
+    }
 }
 
 document.getElementById("rollButton").addEventListener("click", rollDice);

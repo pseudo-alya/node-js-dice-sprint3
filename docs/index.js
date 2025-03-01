@@ -14,8 +14,8 @@ async function rollDice() {
     const diceSound = new Audio("dice-sound.mp3");
     diceSound.play();
 
-    // Fetch the random dice number from your Azure-hosted server
-    const response = await fetch('https://your-azure-app.azurewebsites.net/roll-dice');
+    // Fetch the random dice number from the server
+    const response = await fetch('/roll-dice');
     const data = await response.json();
     const diceRoll = data.diceRoll;
 

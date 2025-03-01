@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 
 // Serve static files (HTML, CSS, images, etc.)
-app.use(express.static(path.join(__dirname, 'docs')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // API endpoint for rolling the dice
 app.get('/roll-dice', (req, res) => {
@@ -12,7 +12,7 @@ app.get('/roll-dice', (req, res) => {
     res.json({ diceRoll });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });

@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 
 // Serve static files (HTML, CSS, images, etc.)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'docs')));
 
 // API endpoint for rolling the dice
 app.get('/roll-dice', (req, res) => {

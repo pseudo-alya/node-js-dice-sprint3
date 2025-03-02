@@ -1,9 +1,10 @@
+// server.js
 const express = require('express');
 const path = require('path');
 
 const app = express();
 
-// Serve static files (HTML, CSS, images, etc.)
+// Serve the static front-end files from the "docs" directory
 app.use(express.static(path.join(__dirname, 'docs')));
 
 // API endpoint for rolling the dice
@@ -12,7 +13,8 @@ app.get('/roll-dice', (req, res) => {
     res.json({ diceRoll });
 });
 
-const PORT = 3000;
+// Azure will set process.env.PORT. Fallback to 3000 locally.
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });

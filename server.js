@@ -5,7 +5,10 @@ const path = require('path');
 const app = express();
 
 // Serve the static front-end files from the "docs" directory
-app.use(express.static(path.join(__dirname, 'docs')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'docs', 'index.html'));
+});
+
 
 // API endpoint for rolling the dice
 app.get('/roll-dice', (req, res) => {

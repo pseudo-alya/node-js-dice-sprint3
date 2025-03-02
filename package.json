@@ -1,12 +1,16 @@
 {
   "name": "myserver",
   "version": "1.0.0",
-  "main": "index.js",
- "scripts": {
-  "test": "echo \"No test specified\""
-},
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No test specified\""
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }

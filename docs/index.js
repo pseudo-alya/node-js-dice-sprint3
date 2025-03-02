@@ -1,57 +1,34 @@
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-const url = require('url');
-const dt = require('./datetime');
+async function rollDice() {
+    const diceImage = document.getElementById("diceImage");
+    const diceNumberText = document.getElementById("diceNumber");
+    const rollButton = document.getElementById("rollButton");
 
-const server = http.createServer((request, response) => {
-    const parsedUrl = url.parse(request.url, true);
-    const pathname = parsedUrl.pathname;
+    // Disable the button while rolling
+    rollButton.disabled = true;
 
-    console.log(`Request received: ${request.url}`);
+    // Remove the rolling animation, force reflow, then re-add
+    diceImage.classList.remove("dice-roll");
+    void diceImage.offsetWidth; // forces a reflow
+    setTimeout(() => {
+        diceImage.classList.add("dice-roll");
+    }, 10);
 
-    // Enable CORS for all requests
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    // Optional: play dice sound
+    const diceSound = new Audio("dice-sound.mp3");
+    diceSound.play();
 
-    // Handle preflight request for CORS
-    if (request.method === 'OPTIONS') {
-        response.writeHead(204);
-        response.end();
-        return;
-    }
+    // Fetch the random dice number from the server
+    const response = await fetch('/roll-dice');
+    const data = await response.json();
+    const diceRoll = data.diceRoll;
 
-    // Serve index.html for the root path
-    if (pathname === '/' || pathname === '/index.html') {
-        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
-            if (err) {
-                response.writeHead(500, { 'Content-Type': 'text/plain' });
-                response.end('Internal Server Error');
-                return;
-            }
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end(data);
-        });
-        return;
-    }
+    // After animation finishes (~1s), update the dice image & text
+    setTimeout(() => {
+        diceImage.src = `dice${diceRoll}.png`;
+        diceNumberText.textContent = `You rolled: ${diceRoll}`;
+        rollButton.disabled = false;
+    }, 1000);
+}
 
-    // Dice Roller API Endpoint
-    if (pathname === '/roll-dice') {
-        const sides = parsedUrl.query.sides ? parseInt(parsedUrl.query.sides) : 6;
-        const result = Math.floor(Math.random() * sides) + 1;
-
-        response.writeHead(200, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify({ roll: result }));
-        return;
-    }
-
-    // Default 404 response
-    response.writeHead(404, { 'Content-Type': 'text/plain' });
-    response.end('Not Found');
-});
-
-const port = process.env.PORT || 1337;
-server.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+// Hook the rollDice function to the button click
+document.getElementById("rollButton").addEventListener("click", rollDice);
